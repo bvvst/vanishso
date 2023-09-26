@@ -8,16 +8,30 @@
 </script>
 
 <svelte:head>
-  <title>vanish.so | secure vanishing notes</title>
-  <meta property="og:title" content="vanish.so" />
-  <meta name="description" content="secure vanishing notes" />
-  <meta property="og:image" content={og} />
+  <title>vanish.so - secure vanishing notes</title>
+  <meta
+    name="description"
+    content="open source end-to-end encrypted vanishing notes"
+  />
+
+  <meta property="og:url" content="https://www.vanish.so/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="vanish.so - secure vanishing notes" />
+  <meta
+    property="og:description"
+    content="open source end-to-end encrypted vanishing notes"
+  />
+  <meta property="og:image" content="%sveltekit.assets%/og.png" />
+
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="vanish.so" />
   <meta property="twitter:url" content="https://www.vanish.so/" />
-  <meta name="twitter:title" content="vanish.so" />
-  <meta name="twitter:description" content="secure vanishing notes" />
-  <meta name="twitter:image" content={og} />
+  <meta name="twitter:title" content="vanish.so - secure vanishing notes" />
+  <meta
+    name="twitter:description"
+    content="open source end-to-end encrypted vanishing notes"
+  />
+  <meta name="twitter:image" content="%sveltekit.assets%/og.png" />
 </svelte:head>
 <main
   class="w-screen md:gap-0 gap-20 md:h-screen min-h-screen overflow-hidden flex flex-col items-center relative"
