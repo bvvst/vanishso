@@ -53,8 +53,6 @@ export async function saveNote({
     ss: ss,
   };
 
-  console.log(note);
-
   try {
     await db.insert(notes).values(note);
   } catch (e) {}
