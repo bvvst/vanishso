@@ -13,7 +13,7 @@
     content="open source end-to-end encrypted vanishing notes"
   />
 
-  <!-- <meta property="og:url" content="https://www.vanish.so/" />
+  <meta property="og:url" content="https://www.vanish.so/" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="vanish.so - secure vanishing notes" />
   <meta
@@ -30,29 +30,7 @@
     name="twitter:description"
     content="open source end-to-end encrypted vanishing notes"
   />
-  <meta name="twitter:image" content="/og.png" /> -->
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Filter® — Design Studio" />
-  <meta
-    property="og:description"
-    content="Filter® is a creative studio that fuels tomorrow visions. "
-  />
-  <meta
-    property="og:image"
-    content="https://framerusercontent.com/modules/cYfBDmDw4K5jQvJCzFuE/26nznqDoQHA5fj3njL7t/assets/GfnqQRKEbH18NfCGhxZetVR3Y.png"
-  />
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Filter® — Design Studio" />
-  <meta
-    name="twitter:description"
-    content="Filter® is a creative studio that fuels tomorrow visions. "
-  />
-  <meta
-    name="twitter:image"
-    content="https://framerusercontent.com/modules/cYfBDmDw4K5jQvJCzFuE/26nznqDoQHA5fj3njL7t/assets/GfnqQRKEbH18NfCGhxZetVR3Y.png"
-  />
+  <meta name="twitter:image" content="/og.png" />
 </svelte:head>
 <main
   class="w-screen md:gap-0 gap-20 md:h-screen min-h-screen overflow-hidden flex flex-col items-center relative"
