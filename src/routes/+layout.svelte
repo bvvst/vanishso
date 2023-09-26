@@ -4,7 +4,6 @@
   import source from "$lib/assets/source.svg";
   import email from "$lib/assets/email.svg";
   import heart from "$lib/assets/heart.svg";
-  import og from "$lib/assets/og.png";
 </script>
 
 <svelte:head>
