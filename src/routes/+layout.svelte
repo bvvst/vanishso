@@ -4,10 +4,13 @@
   import source from "$lib/assets/source.svg";
   import email from "$lib/assets/email.svg";
   import heart from "$lib/assets/heart.svg";
+  import og from "$lib/assets/og.png";
 </script>
 
 <svelte:head>
-  <title>vanish | vanishing notes</title>
+  <title>vanish | secure vanishing notes</title>
+  <meta property="og:title" content="vanish | secure vanishing notes" />
+  <meta property="og:image" content={og} />
 </svelte:head>
 <main
   class="w-screen md:gap-0 gap-20 md:h-screen min-h-screen overflow-hidden flex flex-col items-center relative"
