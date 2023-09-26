@@ -89,7 +89,6 @@
           <p class=" text-[#8C77C0] text-sm font-medium">Custom Password</p>
         </div>
         <input
-          disabled={mode !== "Custom Password"}
           bind:value={customPassword}
           placeholder="Custom Password (Optional)"
           class="w-full focus:border-[#352A7A] focus:outer-ring text-sm rounded-lg border border-[#241C52]/80 bg-gradient-to-b disabled:bg-none text-[#D0C1F6] disabled:text-[#D0C1F6]/40 from-[#381881]/30 to-transparent bg-transparent selection:bg-[#28205B] placeholder:text-[#7059a9] disabled:placeholder:text-[#7059a9]/50 px-3 py-2 focus:outline-none"
