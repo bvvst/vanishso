@@ -97,7 +97,7 @@
         on:blur={() => {
           focused = false;
         }}
-        placeholder="type a note that vanishes after viewing..."
+        placeholder={`type a note that vanishes after ${expiry}`}
         class="bg-gradient-to-b text-[#D0C1F6] from-[#381881]/30 to-transparent bg-transparent selection:bg-[#28205B] placeholder:text-[#7059a9] resize-none h-[12rem] px-3.5 py-2.5 focus:outline-none"
         required
         bind:value={noteContent}
