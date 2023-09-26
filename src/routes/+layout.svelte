@@ -21,7 +21,7 @@
     property="og:description"
     content="open source end-to-end encrypted vanishing notes"
   />
-  <meta property="og:image" content={og} />
+  <meta property="og:image" content="/og.png" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="vanish.so" />
@@ -31,7 +31,7 @@
     name="twitter:description"
     content="open source end-to-end encrypted vanishing notes"
   />
-  <meta name="twitter:image" content={og} />
+  <meta name="twitter:image" content="/og.png" />
 </svelte:head>
 <main
   class="w-screen md:gap-0 gap-20 md:h-screen min-h-screen overflow-hidden flex flex-col items-center relative"
