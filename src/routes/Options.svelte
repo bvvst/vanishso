@@ -110,14 +110,16 @@
               confirmBeforeViewing = !confirmBeforeViewing;
             }}
             class={clsx(
-              confirmBeforeViewing ? "bg-[#D0C1F6]" : "",
-              "rounded-full bg-[#6448A7] w-10 h-7 flex items-center pl-0.5 transition"
+              confirmBeforeViewing ? "bg-[#45259D]" : "bg-[#6448A7]/40",
+              "rounded-full  w-10 h-7 flex items-center pl-0.5 transition"
             )}
           >
             <div
               class={clsx(
-                confirmBeforeViewing ? "translate-x-3 " : "",
-                "rounded-full w-6 h-6 bg-[#121420] transition"
+                confirmBeforeViewing
+                  ? "translate-x-3 bg-white"
+                  : "bg-[#010313]",
+                "rounded-full w-6 h-6  transition"
               )}
             />
           </button>
