@@ -4,6 +4,10 @@
   import source from "$lib/assets/source.svg";
   import email from "$lib/assets/email.svg";
   import heart from "$lib/assets/heart.svg";
+  import { inject } from "@vercel/analytics";
+  import { dev } from "$app/environment";
+
+  inject({ mode: dev ? "development" : "production" });
 </script>
 
 <svelte:head>
