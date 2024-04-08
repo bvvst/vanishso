@@ -105,7 +105,6 @@
       const key = await stringToKey(fragment);
       await readNoteWithKey(key);
     }
-    console.log(decryptedNoteContent);
   }
 
   //chat gpt code

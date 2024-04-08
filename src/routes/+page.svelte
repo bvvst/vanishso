@@ -109,7 +109,7 @@
   let showFadeOut = false;
   let fadeOutPercentage = "";
 
-  let showOptions = true;
+  let showOptions = false;
 
   const expiryOptions = ["viewing", "1h", "24h", "7d", "30d"];
   const modeOptions = ["OTP", "AES", "Password"];
@@ -132,9 +132,7 @@
       <textarea
         bind:this={textArea}
         on:scroll={() => {
-          console.log(textArea.scrollTop);
           if (textArea.scrollTop > 0) {
-            console.log("true");
             showFadeOut = true;
 
             // calculate the percentage of the textArea height equivalent to 20px
