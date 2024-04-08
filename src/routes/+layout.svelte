@@ -56,18 +56,24 @@
     <div class="flex items-center gap-6 text-primary font-medium text-sm">
       <a href="/" class="flex gap-2 items-center">
         <img class="h-4 w-4" alt="security icon" src={security} />
-        <p class="hover:text-white transition-colors">security</p>
+        <p class="hover:text-white transition-colors hidden sm:block">
+          security
+        </p>
       </a>
       <a
         href="https://github.com/bvvst/vanishso"
         class="flex gap-2 items-center"
       >
         <img class="h-4 w-4" alt="source icon" src={source} />
-        <p class="hover:text-white transition-colors">source code</p>
+        <p class="hover:text-white transition-colors hidden sm:block">
+          source code
+        </p>
       </a>
       <a href="/" class="flex gap-2 items-center">
         <img class="h-4 w-4" alt="email icon" src={email} />
-        <p class="hover:text-white transition-colors">contact</p>
+        <p class="hover:text-white transition-colors hidden sm:block">
+          contact
+        </p>
       </a>
     </div>
   </div>

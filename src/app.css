@@ -9,18 +9,59 @@
   :root {
     color-scheme: dark;
   }
+  select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+  }
+  input {
+    box-shadow: inset 0px 2px 1px -1px rgba(255, 255, 255, 0.12),
+      inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+  }
+  @media screen and (max-width: 640px) {
+    textarea {
+      max-height: calc(100vh - 508px);
+    }
+  }
+
+  @media screen and (min-width: 641px) {
+    textarea {
+      max-height: calc(100vh - 342px);
+    }
+  }
+}
+
+@layer components {
+  .custom-select {
+    @apply relative;
+  }
+  .custom-select select {
+    @apply hidden;
+  }
 }
 
 @layer utilities {
-  .outer-ring {
-    box-shadow: 0px 0px 0px 6px rgba(34, 27, 71, 0.6);
-  }
-  .note-scroll-bar {
-    scrollbar-color: white;
-  }
-
-  .depth-white {
-    box-shadow: 0px 3px 0px 0px rgba(255, 255, 255, 0.69);
+  .fade-out {
+    -webkit-mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) var(--percentage),
+      rgba(0, 0, 0, 0) 100%
+    );
+    mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) var(--percentage),
+      rgba(0, 0, 0, 0) 100%
+    );
   }
   .purple-button {
     box-shadow: inset 0px 2px 1px -1px rgba(255, 255, 255, 0.12),

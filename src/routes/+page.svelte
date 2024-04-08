@@ -12,7 +12,7 @@
     generateSalt,
   } from "$lib";
   import { onMount } from "svelte";
-  import LeftArrow from "$lib/assets/arrow-left-circle.svg";
+  import Select from "$lib/Select.svelte";
 
   let noteUrl = "";
   let noteContent = "";
@@ -109,7 +109,7 @@
   let showFadeOut = false;
   let fadeOutPercentage = "";
 
-  let showOptions = false;
+  let showOptions = true;
 
   const expiryOptions = ["viewing", "1h", "24h", "7d", "30d"];
   const modeOptions = ["OTP", "AES", "Password"];
@@ -126,119 +126,8 @@
 
 {#if noteUrl == ""}
   <div
-    class="flex flex-col-reverse md:flex-row w-full h-full max-w-5xl px-10 md:gap-24 font-geist mt-12"
+    class="flex flex-col sm:flex-row w-full h-full max-w-5xl px-10 sm:gap-24 font-geist mt-6"
   >
-    {#if showOptions}
-      <div
-        class="flex flex-col min-w-72 items-start gap-12 h-full self-start overflow-y-scroll overflow-x-visible"
-      >
-        <button
-          on:click={() => {
-            showOptions = !showOptions;
-          }}
-          class=" gap-2 hidden md:flex"
-        >
-          <img src={LeftArrow} alt="" />
-          <p class="text-sm text-primary">Hide Options</p>
-        </button>
-        <div class="flex flex-col">
-          <p class=" text-white text-sm font-semibold">Mode</p>
-          <p class=" text-primary/60 text-sm font-normal">OTP recommended</p>
-
-          <div
-            class="mt-2.5 border border-[#BC9CFF]/5 bg-[#16151C] flex rounded-full overflow-hidden p-1 gap-1"
-          >
-            {#each modeOptions as option}
-              <button
-                on:click={() => {
-                  mode = option;
-                }}
-                class={clsx(
-                  option == mode
-                    ? "bg-[#2D2A3D] selected-option text-white"
-                    : "hover:bg-[#2D2A3D]/60 text-primary",
-                  "py-1 px-2.5 text-sm rounded-md first:first-tab last:last-tab"
-                )}
-              >
-                {option}
-              </button>
-            {/each}
-          </div>
-        </div>
-        <div class="flex flex-col">
-          <p class=" text-white text-sm font-semibold">Expires After</p>
-          <div
-            class="mt-2.5 border border-[#BC9CFF]/5 bg-[#16151C] flex rounded-full overflow-hidden p-1 gap-1"
-          >
-            {#each expiryOptions as option}
-              <button
-                on:click={() => {
-                  expiry = option;
-                }}
-                class={clsx(
-                  option == expiry
-                    ? "bg-[#2D2A3D] selected-option text-white"
-                    : "hover:bg-[#2D2A3D]/60 text-primary",
-                  "py-1 px-2.5 text-sm rounded-md first:first-tab last:last-tab"
-                )}
-              >
-                {option}
-              </button>
-            {/each}
-          </div>
-        </div>
-        {#if mode == "Password"}
-          <div class="flex flex-col w-full">
-            <p class=" text-white text-sm font-semibold">Password</p>
-            <input
-              bind:value={customPassword}
-              placeholder="Password"
-              class=" bg-[#16151C] mt-2.5 focus:border-orchid text-sm rounded-lg border border-[#BC9CFF]/5 text-white selection:bg-orchid/40 placeholder:text-primary/60 disabled:placeholder:text-[#7059a9]/50 px-3 py-2 focus:outline-none"
-              type="text"
-            />
-          </div>
-        {/if}
-        {#if mode !== "Password"}
-          {#if expiry == "viewing"}
-            <div class="flex flex-col items-start">
-              <p class=" text-white text-sm font-semibold">
-                Show confirmation before viewing
-              </p>
-              <div
-                class="mt-2.5 border border-[#BC9CFF]/5 bg-[#16151C] flex rounded-full overflow-hidden p-1 gap-1"
-              >
-                <button
-                  on:click={() => {
-                    confirmBeforeViewing = true;
-                  }}
-                  class={clsx(
-                    confirmBeforeViewing == true
-                      ? "bg-[#2D2A3D] selected-option text-white"
-                      : "hover:bg-[#2D2A3D]/60 text-primary",
-                    "py-1 px-2.5 text-sm rounded-md first:first-tab last:last-tab"
-                  )}
-                >
-                  True
-                </button>
-                <button
-                  on:click={() => {
-                    confirmBeforeViewing = false;
-                  }}
-                  class={clsx(
-                    confirmBeforeViewing == false
-                      ? "bg-[#2D2A3D] selected-option text-white"
-                      : "hover:bg-[#2D2A3D]/60 text-primary",
-                    "py-1 px-2.5 text-sm rounded-md first:first-tab last:last-tab"
-                  )}
-                >
-                  False
-                </button>
-              </div>
-            </div>
-          {/if}
-        {/if}
-      </div>
-    {/if}
     <div class="flex flex-col gap-2 w-full mx-auto max-w-2xl">
       <textarea
         bind:this={textArea}
@@ -267,14 +156,11 @@
           "caret-[#845FEE] note-scroll-bar overflow-y-auto min-h-[20px] text-sm w-full font-medium font-mono text-primary bg-transparent selection:bg-orchid/50 placeholder:text-primary/60 focus:outline-none resize-none"
         )}
         required
-        style="
-        max-height: calc(100vh - 256px);
-        --percentage: {fadeOutPercentage};
-      "
+        style="--percentage: {fadeOutPercentage};"
         bind:value={noteContent}
       />
 
-      <div class="flex gap-1 w-full mt-10 mb-10">
+      <div class="flex gap-1 w-full mt-10">
         <button
           on:click={handleSubmit}
           class={clsx(
@@ -292,9 +178,50 @@
           }}
           class="active:translate-y-[2px] bg-[#2D2A3D] selected-option py-2 transition flex h-full justify-center items-center rounded-r-lg rounded-l-sm px-1.5 w-14"
         >
-          <img class="w-5 h-5" src={OptionsIcon} alt="" />
+          <img class="w-5 h-5 pointer-events-none" src={OptionsIcon} alt="" />
         </button>
       </div>
+      {#if showOptions}
+        <div class="flex w-full my-10">
+          <div
+            class="flex flex-col sm:flex-row gap-8 sm:mx-auto w-full sm:w-auto"
+          >
+            <div class="flex flex-col gap-2">
+              <p class=" text-white text-sm font-semibold">Mode</p>
+              <Select bind:value={mode} options={modeOptions} />
+            </div>
+            <div class="h-14 w-[1px] bg-primary/20 hidden sm:block"></div>
+            <div class="flex flex-col gap-2">
+              <p class=" text-white text-sm font-semibold">Expires After</p>
+              <Select bind:value={expiry} options={expiryOptions} />
+            </div>
+            <div class="h-14 w-[1px] bg-primary/20 hidden sm:block"></div>
+
+            {#if mode == "Password"}
+              <div class="flex flex-col gap-2">
+                <p class=" text-white text-sm font-semibold">Password</p>
+                <input
+                  bind:value={customPassword}
+                  placeholder="Password"
+                  class=" px-2.5 py-1 bg-[#16151C]/50 focus:border-orchid text-sm rounded-lg text-white selection:bg-orchid/40 placeholder:text-primary/60 focus:outline-none"
+                  type="text"
+                />
+              </div>
+            {:else if expiry == "viewing"}
+              <div class="flex flex-col gap-2">
+                <p class=" text-white text-sm font-semibold">
+                  Confirm before viewing
+                </p>
+
+                <Select
+                  bind:value={confirmBeforeViewing}
+                  options={[true, false]}
+                />
+              </div>
+            {/if}
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 {:else}
@@ -347,20 +274,3 @@
     </a>
   </div>
 {/if}
-
-<style>
-  .fade-out {
-    -webkit-mask-image: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) var(--percentage),
-      rgba(0, 0, 0, 0) 100%
-    );
-    mask-image: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) var(--percentage),
-      rgba(0, 0, 0, 0) 100%
-    );
-  }
-</style>

@@ -157,25 +157,23 @@
 </script>
 
 {#if !noteData}
-  <div class="flex flex-col items-center m-auto w-[34rem]">
-    <h2 class="text-[#D0C1F6] font-obv font-medium">
-      This note doesn't exist, or it already expired.
-    </h2>
+  <div class="flex flex-col items-center m-auto max-w-[34rem] px-4">
+    <h2 class="text-white font-semibold text-xl">404</h2>
     <a
       href="/"
-      class="text-[#5B478D] hover:underline font-obv text-sm text-center max-w-xs mt-2"
+      class="text-primary hover:underline font-medium text-sm text-center max-w-xs mt-2"
     >
-      Make a new note
+      This note doesn’t exist, or it expired, or maybe it never existed.
     </a>
   </div>
 {:else if decrypted}
-  <div class="flex flex-col w-full max-w-2xl h-full px-10 mt-12">
-    <div class="flex font-geist text-primary items-start md:items-center gap-2">
-      <img src={Caution} alt="" />
+  <div class="flex flex-col w-full max-w-2xl h-full px-10 mt-6">
+    <div class="flex font-geist text-primary items-start gap-2">
+      <img class="mt-1" src={Caution} alt="" />
       <p class="font-normal font-obv text-sm max-w-s">
         {#if noteData?.exp == 0}
-          This note has already vanished. Before leaving, ensure you've copied
-          it if necessary.
+          This note has vanished. Before leaving, ensure you've copied it if
+          necessary.
         {:else if noteData.mode == "p"}
           You'll need to re-enter the password if you leave or refresh.
         {:else}

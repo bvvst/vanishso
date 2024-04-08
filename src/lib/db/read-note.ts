@@ -6,7 +6,6 @@ import { notes } from "$lib/db/schema";
 import { createClient } from "@libsql/client";
 
 export async function readNote(id: string) {
-  console.log("hi", env.DATABASE_HOST);
   const client = createClient({
     url: env.DATABASE_HOST,
     authToken: env.DATABASE_TOKEN,
