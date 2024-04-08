@@ -3,6 +3,8 @@
   import { decrypt, deriveKey, hashKey, keyToString, stringToKey } from "$lib";
   import clsx from "clsx";
   import { otp } from "$lib/otp";
+  import Modal from "$lib/Modal.svelte";
+  import Caution from "$lib/assets/caution.svg";
 
   interface NoteData {
     id: string;
@@ -89,11 +91,11 @@
         console.log("bruh");
         return;
       }
-      readNoteWithCipherKey(fragment);
+      await readNoteWithCipherKey(fragment);
     } else if (noteData.mode == "p") {
       const key = await deriveKey(password, noteData.cs);
       console.log("reading with key: ", await keyToString(key));
-      readNoteWithKey(key);
+      await readNoteWithKey(key);
     } else {
       const fragment = window.location.href.split("#")[1] || "";
       if (fragment == "") {
@@ -101,8 +103,9 @@
         return;
       }
       const key = await stringToKey(fragment);
-      readNoteWithKey(key);
+      await readNoteWithKey(key);
     }
+    console.log(decryptedNoteContent);
   }
 
   //chat gpt code
@@ -147,6 +150,10 @@
       }, 1000);
     }
   });
+
+  let textArea: HTMLTextAreaElement;
+  let showFadeOut = false;
+  let fadeOutPercentage = "";
 </script>
 
 {#if !noteData}
@@ -162,60 +169,92 @@
     </a>
   </div>
 {:else if decrypted}
-  <div class="flex flex-col items-center m-auto w-full md:w-[34rem] px-4">
-    <h2 class="text-[#D0C1F6] font-obv font-medium">
-      {#if noteData?.exp == 0}
-        This note can only be viewed once.
-      {:else}
-        This note expires in {countdown}
-      {/if}
-    </h2>
-    <p class="text-[#5B478D] font-obv text-sm text-center max-w-sm mt-2">
-      {#if noteData?.exp == 0}
-        This note has already vanished. Before leaving, ensure you've copied it
-        if necessary.
-      {:else if noteData.mode == "p"}
-        You'll need to re-enter the password if you leave or refresh.
-      {/if}
-    </p>
+  <div class="flex flex-col w-full max-w-2xl h-full px-10 mt-12">
+    <div class="flex font-geist text-primary items-start md:items-center gap-2">
+      <img src={Caution} alt="" />
+      <p class="font-normal font-obv text-sm max-w-s">
+        {#if noteData?.exp == 0}
+          This note has already vanished. Before leaving, ensure you've copied
+          it if necessary.
+        {:else if noteData.mode == "p"}
+          You'll need to re-enter the password if you leave or refresh.
+        {:else}
+          This note vanishes in
+          <span class="font-semibold">{countdown}</span>
+        {/if}
+      </p>
+    </div>
+    <div class="flex w-full h-full gap-24 font-geist mt-7">
+      <div class="flex flex-col h-full gap-2 w-full mx-auto max-w-2xl">
+        <textarea
+          bind:this={textArea}
+          on:scroll={() => {
+            if (textArea.scrollTop > 0) {
+              console.log("true");
+              showFadeOut = true;
 
-    <textarea
-      class="border mt-8 border-[#241C52]/80 flex flex-col w-full rounded-lg group bg-gradient-to-b text-[#D0C1F6] from-[#381881]/30 to-transparent bg-transparent selection:bg-[#28205B] resize-none h-[12rem] px-3.5 py-2.5 outline-none"
-      readonly
-      bind:value={decryptedNoteContent}
-    />
+              // calculate the percentage of the textArea height equivalent to 20px
+              let fadeOutPercentageNumber =
+                100 - (100 * 20) / textArea.clientHeight;
+
+              fadeOutPercentage = `${fadeOutPercentageNumber}%`;
+            } else {
+              showFadeOut = false;
+            }
+          }}
+          class={clsx(
+            showFadeOut && "fade-out",
+            "caret-[#845FEE] note-scroll-bar h-full min-h-[20px] text-sm w-full font-medium font-mono text-primary bg-transparent selection:bg-orchid/50 placeholder:text-primary/60 focus:outline-none resize-none"
+          )}
+          style="
+        max-height: calc(100vh - 256px);
+        --percentage: {fadeOutPercentage};
+      "
+          bind:value={decryptedNoteContent}
+        />
+      </div>
+    </div>
   </div>
 {:else}
-  <div class="flex flex-col items-center m-auto w-full md:w-[34rem] px-4">
-    <h2 class="text-[#D0C1F6] font-obv font-medium">
+  <Modal>
+    <svelte:fragment slot="header">
+      <h2 class="text-white text-center font-clash font-semibold text-xl">
+        {#if noteData?.exp == 0}
+          This note can only be viewed once.
+        {:else}
+          This note vanishes in
+        {/if}
+      </h2>
       {#if noteData?.exp == 0}
-        This note can only be viewed once.
+        <p
+          class="text-primary font-clash font-medium text-sm text-center max-w-[300px] mt-3"
+        >
+          After the link is opened, the note will not be accessible anymore.{" "}
+        </p>
       {:else}
-        This note expires in {countdown}
+        <h2 class="text-primary font-clash font-semibold text-xl">
+          {countdown}
+        </h2>
       {/if}
-    </h2>
-    {#if noteData?.exp == 0}
-      <p class="text-[#5B478D] font-obv text-sm text-center max-w-xs mt-2">
-        After the link is opened, the note will not be accessible anymore.{" "}
-      </p>
-    {/if}
-
-    {#if noteData?.mode == "p"}
-      <input
-        bind:value={password}
-        placeholder="Password"
-        class="w-full mt-8 focus:border-[#352A7A] focus:outer-ring text-sm rounded-lg border border-[#241C52]/80 bg-gradient-to-b disabled:bg-none text-[#D0C1F6] from-[#381881]/30 to-transparent bg-transparent selection:bg-[#28205B] placeholder:text-[#7059a9] disabled:placeholder:text-[#7059a9]/50 px-3 py-2 focus:outline-none"
-        type="text"
-      />
-    {/if}
-    <button
-      on:click={viewNote}
-      class={clsx(
-        noteData?.mode == "p" ? "mt-3" : "mt-8",
-        " w-full font-medium active:translate-y-[2px] bg-white hover:bg-opacity-95 transition rounded-[6px] depth-white py-2"
-      )}
-    >
-      View Note
-    </button>
-  </div>
+    </svelte:fragment>
+    <svelte:fragment slot="content">
+      {#if noteData?.mode == "p"}
+        <input
+          bind:value={password}
+          placeholder="Password"
+          class=" bg-[#16151C] w-full font-geist focus:border-orchid text-sm rounded-lg border border-[#BC9CFF]/10 text-primary selection:bg-orchid/40 placeholder:text-primary/60 disabled:placeholder:text-[#7059a9]/50 px-2.5 py-2 focus:outline-none"
+          type="text"
+        />
+      {/if}
+      <button
+        on:click={viewNote}
+        class={clsx(
+          noteData?.mode == "p" && "mt-4",
+          "purple-button bg-orchid hover:bg-orchid-100 px-3.5 text-sm text-white font-semibold active:translate-y-[2px] transition rounded-lg py-2"
+        )}
+      >
+        View Note
+      </button>
+    </svelte:fragment>
+  </Modal>
 {/if}

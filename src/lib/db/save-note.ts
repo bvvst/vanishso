@@ -1,11 +1,11 @@
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { connect } from "@planetscale/database";
+import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "$lib/db/schema";
 import { env } from "$env/dynamic/private";
 import { notes } from "$lib/db/schema";
 import ShortUniqueId from "short-unique-id";
 import type { NewNote } from "../../routes/api/new/+server";
 import { generateSalt, hash } from "$lib";
+import { createClient } from "@libsql/client";
 
 export async function saveNote({
   confirmBeforeViewing,
@@ -15,13 +15,12 @@ export async function saveNote({
   h,
   s,
 }: NewNote) {
-  const connection = connect({
-    host: env.DATABASE_HOST,
-    username: env.DATABASE_USERNAME,
-    password: env.DATABASE_PASSWORD,
+  const client = createClient({
+    url: env.DATABASE_HOST,
+    authToken: env.DATABASE_TOKEN,
   });
 
-  const db = drizzle(connection, { schema });
+  const db = drizzle(client, { schema });
 
   // generate id
   const uid = new ShortUniqueId({ length: 10 });
@@ -55,7 +54,9 @@ export async function saveNote({
 
   try {
     await db.insert(notes).values(note);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 
   return noteId;
 }
