@@ -22,11 +22,13 @@
   let confirmBeforeViewing = true;
   let mode = "OTP";
 
-  const handleSubmit = async () => {
-    // if (noteContent == "") {
-    //   return;
-    // }
+  let loading = false;
 
+  const handleSubmit = async () => {
+    if (noteContent == "") {
+      return;
+    }
+    loading = true;
     let key: CryptoKey | null = null;
     let cipherKey = "";
     let s = "";
@@ -67,6 +69,7 @@
 
     if (!res.ok) {
       // do error handling
+      loading = false;
       return;
     }
 
@@ -77,6 +80,7 @@
     } else {
       if (!key) {
         // do some error handling here
+        loading = false;
         return;
       }
       const _keyString = await keyToString(key);
@@ -93,6 +97,8 @@
     encrypted = "";
     hash = "";
     m = "";
+
+    loading = false;
   };
 
   let textArea: HTMLTextAreaElement;
@@ -161,14 +167,18 @@
       <div class="flex gap-1 w-full mt-10">
         <button
           on:click={handleSubmit}
+          disabled={loading}
           class={clsx(
-            noteContent == ""
+            loading &&
+              "bg-opacity-50 text-primary/60 bg-primary/10 cursor-default",
+            !loading && noteContent == ""
               ? "bg-opacity-50 text-primary/60 bg-primary/10 cursor-default"
-              : "purple-button bg-orchid hover:bg-orchid-100",
+              : "purple-button bg-orchid hover:bg-orchid-100 disabled:hover:bg-primary/10",
+
             "w-full text-sm  font-semibold active:translate-y-[2px]   transition rounded-l-lg rounded-r-sm py-2 "
           )}
         >
-          generate link
+          {loading ? "loading..." : "generate link"}
         </button>
         <button
           on:click={() => {
